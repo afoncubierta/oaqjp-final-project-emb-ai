@@ -25,4 +25,3 @@ def emotion_detection(text_to_analyze = "This is a very nice default value"):
     emotion = response["text"]
 
     return emotion
-
