@@ -22,13 +22,15 @@ def emotion_detector(text_to_analyze = "This is a very nice default value"):
     }
 
     response = requests.post(WATSON_NLP_EMOTION_PREDICT_URL, headers= WATSON_NLP_EMOTION_PREDICT_HEADERS, json = input_json)
+    if response.status_code == 400:
+        emotions = {'anger': None, 'disgust': None, 'fear': None, 'joy': None, 'sadness': None, "dominant_emotion": None}
+    else:
+        response_dict = json.loads(response.text)
+        predictions = response_dict.get("emotionPredictions")[0]
+        emotions = predictions.get("emotion")
 
-    response_dict = json.loads(response.text)
-    predictions = response_dict.get("emotionPredictions")[0]
-    emotions = predictions.get("emotion")
-
-    dominant_emotion = [emotion_name for emotion_name, emotion_score in emotions.items() if emotion_score == max(emotions.values())][0]
-    emotions["dominant_emotion"] = dominant_emotion
+        dominant_emotion = [emotion_name for emotion_name, emotion_score in emotions.items() if emotion_score == max(emotions.values())][0]
+        emotions["dominant_emotion"] = dominant_emotion
 
     return emotions
 
