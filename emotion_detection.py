@@ -22,7 +22,7 @@ def emotion_detection(text_to_analyze = "This is a very nice default value"):
 
     response = requests.get(WATSON_NLP_EMOTION_PREDICT_URL, headers= WATSON_NLP_EMOTION_PREDICT_HEADERS, params = input_json)
     
-    print(response)
+    emotion = response["text"]
 
     return emotion
 
